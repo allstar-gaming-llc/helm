@@ -1,0 +1,17 @@
+{{- if .Values.ingress.enabled }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  secretName: {{ .Release.Name }}-tls
+  dnsNames:
+    - {{ .Release.Name }}.{{ .Values.env }}.allstar.dev
+  {{- range $hostname := .Values.ingress.hostnames }}
+    - {{ $hostname }}
+  {{- end }}
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+{{- end }}

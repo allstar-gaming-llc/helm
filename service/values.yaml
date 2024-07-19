@@ -1,0 +1,7 @@
+---
+env: dev
+image: ""
+
+ingress:
+  enabled: false
+  hostnames: []
