@@ -61,5 +61,9 @@ spec:
         ports:
         - name: http
           containerPort: {{ .Values.port }}
-        livenessProbe: {{ .Values.livenessProbe | nindent 10 }}
-        readinessProbe: {{ .Values.startupProbe | nindent 10 }}
+        {{- if .Values.livenessProbe }}
+        livenessProbe: {{- include "probe" (set .Values.livenessProbe "port" .Values.port)  | indent 10 }}
+        {{- end }}
+        {{- if .Values.readinessProbe }}
+        readinessProbe: {{- include "probe" (set .Values.readinessProbe "port" .Values.port)  | indent 10 }}
+        {{- end }}

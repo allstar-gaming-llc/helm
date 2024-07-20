@@ -39,15 +39,14 @@ secretEnv: {}
 #   <ENV_VAR_NAME>: <envVarValue>
 statiEnv: {}
 
-# liveness probe as a multi-line string
-livenessProbe: |-
-  periodSeconds: 10
-  httpGet:
-    path: /
+readinessProbe:
+  initialDelay: 5
+  period: 10
+  type: httpGet
+  path: /
 
-# startup probe as a multi-line string
-startupProbe: |-
-  failureThreshold: 30
-  periodSeconds: 3
-  httpGet:
-    path: /
+livenessProbe:
+  initialDelay: 5
+  period: 10
+  type: httpGet
+  path: /
