@@ -1,5 +1,8 @@
 {{/* Creates a probe (liveness, readiness, startup, etc.) for a pod */}}
 {{- define "probe" }}
+{{- if .failureThreshold }}
+failureThreshold: {{ .failureThreshold }}
+{{- end }}
 {{- if .initialDelay }}
 initialDelaySeconds: {{ .initialDelay }}
 {{- end }}
