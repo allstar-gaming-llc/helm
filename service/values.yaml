@@ -1,7 +1,46 @@
 ---
 env: dev
 image: ""
+port: 3000
 
 ingress:
   enabled: false
   hostnames: []
+
+resources:
+  requests:
+    cpu: 200m
+  limits:
+    memory: 700Mi
+
+# extra static environment variables like
+# envVars;
+#   <ENV_VAR_NAME>: <envVarValue>
+statiEnvVars: {}
+
+# extra environment variables from ConfigMaps like
+# envConfig;
+#   <ENV_VAR_NAME>:
+#     name: <nameOfConfigMap>
+#     key: <keyOfValueInConfigMap>
+envFromConfigMaps: {}
+
+# extra environment variables from Secrets like
+# envSecret;
+#   <ENV_VAR_NAME>:
+#     name: <nameOfSecret>
+#     key: <keyOfValueInSecret>
+envSecrets: {}
+
+# liveness probe as a multi-line string
+livenessProbe: |-
+  periodSeconds: 10
+  httpGet:
+    path: /
+
+# startup probe as a multi-line string
+startupProbe: |-
+  failureThreshold: 30
+  periodSeconds: 3
+  httpGet:
+    path: /
