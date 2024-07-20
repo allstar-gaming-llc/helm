@@ -44,15 +44,15 @@ spec:
         - name: {{ $k }}
           valueFrom:
             configMapKeyRef:
-              name: {{ $v.name }}
-              key: {{ $v.key }}
+              name: {{ $.Release.Name }}
+              key: {{ $v }}
         {{- end }}
         {{- range $k, $v := .Values.secretEnv }}
         - name: {{ $k }}
           valueFrom:
             secretKeyRef:
-              name: {{ $v.name }}
-              key: {{ $v.key }}
+              name: {{ $.Release.Name }}
+              key: {{ $v }}
         {{- end }}
         {{- range $k, $v := .Values.staticEnv }}
         - name: {{ $k }}

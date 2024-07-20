@@ -22,22 +22,18 @@ resources:
 
 # extra environment variables from ConfigMaps like
 # envConfig;
-#   <ENV_VAR_NAME>:
-#     name: <nameOfConfigMap>
-#     key: <keyOfValueInConfigMap>
+#   <ENV_VAR_NAME>: <keyOfValueInConfigMap>
 configMapEnv: {}
 
 # extra environment variables from Secrets like
 # envSecret;
-#   <ENV_VAR_NAME>:
-#     name: <nameOfSecret>
-#     key: <keyOfValueInSecret>
+#   <ENV_VAR_NAME>: <keyOfValueInSecret>
 secretEnv: {}
 
 # extra static environment variables like
 # envVars;
 #   <ENV_VAR_NAME>: <envVarValue>
-statiEnv: {}
+staticEnv: {}
 
 startupProbe:
   failureThreshold: 30
