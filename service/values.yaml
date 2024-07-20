@@ -6,6 +6,10 @@ port: 3000
 externalSecret:
   enabled: true
 
+service:
+  enabled: true
+  type: NodePort
+
 ingress:
   enabled: false
   hostnames: []
