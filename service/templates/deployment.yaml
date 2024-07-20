@@ -38,10 +38,6 @@ spec:
         env:
         - name: PORT
           value: {{ .Values.port | quote }}
-        {{- range $k, $v := .Values.staticEnv }}
-        - name: {{ $k }}
-          value: {{ $v }}
-        {{- end }}
         {{- range $k, $v := .Values.configMapEnv }}
         - name: {{ $k }}
           valueFrom:
@@ -55,6 +51,10 @@ spec:
             secretKeyRef:
               name: {{ $v.name }}
               key: {{ $v.key }}
+        {{- end }}
+        {{- range $k, $v := .Values.staticEnv }}
+        - name: {{ $k }}
+          value: {{ $v }}
         {{- end }}
         ports:
         - name: http
