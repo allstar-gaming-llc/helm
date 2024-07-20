@@ -38,6 +38,8 @@ spec:
         env:
         - name: PORT
           value: {{ .Values.port | quote }}
+        - name: K8S_ENV
+          value: {{ .Values.env }}
         {{- range $k, $v := .Values.configMapEnv }}
         - name: {{ $k }}
           valueFrom:
