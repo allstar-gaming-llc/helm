@@ -3,6 +3,9 @@ env: dev
 image: ""
 port: 3000
 
+externalSecret:
+  enabled: true
+
 ingress:
   enabled: false
   hostnames: []
