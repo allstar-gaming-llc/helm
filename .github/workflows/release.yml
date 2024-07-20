@@ -2,7 +2,7 @@ name: Release charts
 
 on:
   push:
-    branches: [main, ross/cp-254-create-a-cd-workflow-for-accountant]
+    branches: [main]
 
 jobs:
   release:
