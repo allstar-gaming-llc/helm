@@ -14,7 +14,7 @@ spec:
       match: "Host(`{{ .Release.Name }}.{{ .Values.env }}.allstar.dev`){{ range $hostname := .Values.ingress.hostnames }} || Host(`{{ $hostname }}`){{ end }}"
       services:
         - name: {{ .Release.Name }}
-          port: 3000
+          port: {{ .Values.port }}
   tls:
     secretName: {{ .Release.Name }}-tls
 {{- end }}
