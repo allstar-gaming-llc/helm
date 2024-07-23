@@ -1,0 +1,72 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  {{- if eq .Values.env "prod" }}
+  replicas: 2
+  {{- else }}
+  replicas: 1
+  {{- end }}
+  selector:
+    matchLabels:
+      service: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        service: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Release.Name }}
+        image: {{ .Values.image }}
+        {{- if .Values.resources }}
+        resources:
+          {{- if .Values.resources.requests }}
+          requests:
+            {{- range $k, $v := .Values.resources.requests }}
+            {{ $k }}: {{ $v }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.resources.limits }}
+          limits:
+            {{- range $k, $v := .Values.resources.limits }}
+            {{ $k }}: {{ $v }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+        env:
+        - name: PORT
+          value: {{ .Values.port | quote }}
+        - name: K8S_ENV
+          value: {{ .Values.env }}
+        {{- range $k, $v := .Values.configMapEnv }}
+        - name: {{ $k }}
+          valueFrom:
+            configMapKeyRef:
+              name: {{ $.Release.Name }}
+              key: {{ $v }}
+        {{- end }}
+        {{- range $k, $v := .Values.secretEnv }}
+        - name: {{ $k }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Release.Name }}
+              key: {{ $v }}
+        {{- end }}
+        {{- range $k, $v := .Values.staticEnv }}
+        - name: {{ $k }}
+          value: {{ $v }}
+        {{- end }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.port }}
+        {{- if .Values.startupProbe }}
+        startupProbe: {{- include "probe" (set .Values.startupProbe "port" .Values.port)  | indent 10 }}
+        {{- end }}
+        {{- if .Values.livenessProbe }}
+        livenessProbe: {{- include "probe" (set .Values.livenessProbe "port" .Values.port)  | indent 10 }}
+        {{- end }}
+        {{- if .Values.readinessProbe }}
+        readinessProbe: {{- include "probe" (set .Values.readinessProbe "port" .Values.port)  | indent 10 }}
+        {{- end }}

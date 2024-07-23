@@ -1,0 +1,47 @@
+---
+env: dev
+image: ""
+port: 3000
+
+externalSecret:
+  enabled: true
+
+service:
+  enabled: true
+  type: NodePort
+
+ingress:
+  enabled: false
+  hostnames: []
+
+resources:
+  requests:
+    cpu: 200m
+  limits:
+    memory: 700Mi
+
+# extra environment variables from ConfigMaps like
+# envConfig;
+#   <ENV_VAR_NAME>: <keyOfValueInConfigMap>
+configMapEnv: {}
+
+# extra environment variables from Secrets like
+# envSecret;
+#   <ENV_VAR_NAME>: <keyOfValueInSecret>
+secretEnv: {}
+
+# extra static environment variables like
+# envVars;
+#   <ENV_VAR_NAME>: <envVarValue>
+staticEnv: {}
+
+startupProbe:
+  failureThreshold: 30
+  period: 3
+  type: httpGet
+  path: /
+
+livenessProbe:
+  period: 10
+  type: httpGet
+  path: /
