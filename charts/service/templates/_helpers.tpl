@@ -14,5 +14,10 @@ httpGet:
   path: {{ .path }}
   port: {{ .port }}
 {{- end }}
+{{- if .acceptJson }}
+httpHeaders:
+  - name: Accept
+    value: application/json
+{{- end }}
 {{- end }}
 
