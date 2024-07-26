@@ -14,5 +14,12 @@ httpGet:
   path: {{ .path }}
   port: {{ .port }}
 {{- end }}
+  {{- if .headers }}
+  httpHeaders:
+  {{- range $idx, $value := .headers }}
+    - name: {{ $value.name }}
+      value: {{ $value.value }}
+  {{- end }}
+  {{- end }}
 {{- end }}
 
