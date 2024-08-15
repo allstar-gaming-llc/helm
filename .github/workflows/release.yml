@@ -2,7 +2,7 @@ name: Release charts
 
 on:
   push:
-    branches: [main]
+    branches: [main, ross/vx-546-run-a-schema-publish-after-new-code-is-deployed-to-k8s]
 
 jobs:
   release:
