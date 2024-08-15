@@ -2,6 +2,7 @@
 env: dev
 image: ""
 port: 3000
+federationSchemaPublishCommand: null
 
 externalSecret:
   enabled: true
