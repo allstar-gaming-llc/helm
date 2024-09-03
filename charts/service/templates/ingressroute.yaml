@@ -1,4 +1,6 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/traefik.containo.us/ingressroute_v1alpha1.json
 {{- if .Values.ingress.enabled }}
+---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -16,5 +18,5 @@ spec:
         - name: {{ .Release.Name }}
           port: {{ .Values.port }}
   tls:
-    secretName: {{ .Release.Name }}-tls
+    secretName: "{{ .Release.Name }}-tls"
 {{- end }}
