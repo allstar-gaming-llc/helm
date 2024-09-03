@@ -13,7 +13,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: "Host(`{{ .Release.Name }}.{{ .Values.env }}.allstar.dev`){{ range $hostname := .Values.ingress.hostnames }} || Host(`{{ $hostname }}`){{ end }}"
+      match: "(Host(`{{ .Release.Name }}.{{ .Values.env }}.allstar.dev`){{ range $hostname := .Values.ingress.hostnames }} || Host(`{{ $hostname }}`){{ end }}){{ if .Values.ingress.pathPrefix }} && PathPrefix(`{{ .Values.ingress.pathPrefix }}`){{ end }}"
       services:
         - name: {{ .Release.Name }}
           port: {{ .Values.port }}
