@@ -4,6 +4,15 @@ image: ""
 port: 3000
 federationSchemaPublishCommand: null
 
+autoscaling:
+  enabled: false
+  replicas:
+    min: 2
+    max: 10
+  averageUtilization:
+    cpu: 80
+    memory: 80
+
 externalSecret:
   enabled: true
 
