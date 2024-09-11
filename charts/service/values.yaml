@@ -13,6 +13,9 @@ autoscaling:
     cpu: 80
     memory: 80
 
+monitoring:
+  enabled: false
+
 externalSecret:
   enabled: true
 
