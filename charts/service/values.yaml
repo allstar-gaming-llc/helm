@@ -3,6 +3,7 @@ env: dev
 image: ""
 port: 3000
 federationSchemaPublishCommand: null
+serviceAccount: null
 
 autoscaling:
   enabled: false

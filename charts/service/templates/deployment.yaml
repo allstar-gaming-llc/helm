@@ -17,6 +17,9 @@ spec:
       labels:
         service: {{ .Release.Name }}
     spec:
+      {{- if .Values.serviceAccount }}
+      serviceAccount: {{ .Values.serviceAccount }}
+      {{- end }}
       containers:
       - name: {{ .Release.Name }}
         image: {{ .Values.image }}
