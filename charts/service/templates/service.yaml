@@ -11,7 +11,11 @@ spec:
   selector:
     service: {{ .Release.Name }}
   ports:
-  - name: http
-    port: {{ .Values.port }}
-    targetPort: {{ .Values.port }}
+  {{- range $k, $container := .Values.deployment.containers }}
+  {{- range $name, $port := $container.ports }}
+  - name: {{ $name }}
+    port: {{ $port }}
+    targetPort: {{ $port }}
+  {{- end }}
+  {{- end }}
 {{- end }}
