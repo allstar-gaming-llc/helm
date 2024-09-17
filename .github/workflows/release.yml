@@ -2,7 +2,7 @@ name: Release charts
 
 on:
   push:
-    branches: [main]
+    branches: [main, ross/vx-654-add-prometheus-metrics-to-accountant]
 
 jobs:
   release:
