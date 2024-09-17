@@ -23,6 +23,16 @@ spec:
       containers:
       {{- range $name, $container := .Values.deployment.containers }}
       - name: {{ $name }}
+        {{- if $container.command }}
+        {{- if kindIs "slice" $container.command }}
+        command:
+        {{- range $el := $container.command }}
+        - {{ $el }}
+        {{- end }}
+        {{- else }}
+        command: {{ $container.command }}
+        {{- end }}
+        {{- end }}
         image: {{ $.Values.image }}
         {{- if $container.resources }}
         resources:
