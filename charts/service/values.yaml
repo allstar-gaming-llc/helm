@@ -1,7 +1,6 @@
 ---
 env: dev
 image: ""
-federationSchemaPublishCommand: null
 serviceAccount: null
 
 autoscaling:
@@ -58,6 +57,24 @@ deployment:
         type: httpGet
         port: http
         path: /
+
+federationSchemaPublish:
+  command: null
+
+  # extra environment variables from ConfigMaps like
+  # envConfig;
+  #   <ENV_VAR_NAME>: <keyOfValueInConfigMap>
+  configMapEnv: {}
+
+  # extra environment variables from Secrets like
+  # envSecret;
+  #   <ENV_VAR_NAME>: <keyOfValueInSecret>
+  secretEnv: {}
+
+  # extra static environment variables like
+  # envVars;
+  #   <ENV_VAR_NAME>: <envVarValue>
+  staticEnv: {}
 
 service:
   enabled: true

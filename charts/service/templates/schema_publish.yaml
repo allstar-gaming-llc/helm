@@ -1,4 +1,4 @@
-{{- if .Values.federationSchemaPublishCommand }}
+{{- if .Values.federationSchemaPublish.command }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -20,25 +20,25 @@ spec:
         command:
           - "/bin/sh"
           - "-xec"
-          - "{{ .Values.federationSchemaPublishCommand }}"
+          - "{{ .Values.federationSchemaPublish.command }}"
         env:
         - name: K8S_ENV
           value: {{ .Values.env }}
-        {{- range $k, $v := .Values.deployment.containers.default.configMapEnv }}
+        {{- range $k, $v := .Values.federationSchemaPublish.configMapEnv }}
         - name: {{ $k }}
           valueFrom:
             configMapKeyRef:
               name: {{ $.Release.Name }}
               key: {{ $v }}
         {{- end }}
-        {{- range $k, $v := .Values.deployment.containers.default.secretEnv }}
+        {{- range $k, $v := .Values.federationSchemaPublish.secretEnv }}
         - name: {{ $k }}
           valueFrom:
             secretKeyRef:
               name: {{ $.Release.Name }}
               key: {{ $v }}
         {{- end }}
-        {{- range $k, $v := .Values.deployment.containers.default.staticEnv }}
+        {{- range $k, $v := .Values.federationSchemaPublish.staticEnv }}
         - name: {{ $k }}
           value: "{{ $v }}"
         {{- end }}
