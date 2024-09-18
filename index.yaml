@@ -2,6 +2,14 @@ apiVersion: v1
 entries:
   allstar-service:
   - apiVersion: v2
+    appVersion: 2.0.0
+    created: "2024-09-18T21:33:16.535338726Z"
+    digest: 2b248cc97458fa832838710d1df5bb4ca1d86ea55c3d19c6d19f07c15a20f1f8
+    name: allstar-service
+    urls:
+    - https://github.com/allstar-gaming-llc/buffet/releases/download/allstar-service-2.0.0/allstar-service-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
     appVersion: 2.0.0-beta5
     created: "2024-09-17T18:26:47.656144282Z"
     digest: a5a26a772cecd9d48660394ae9f1e58627f7756870c7619bb66a67722dcb64d2
@@ -145,4 +153,4 @@ entries:
     urls:
     - https://github.com/allstar-gaming-llc/helm/releases/download/allstar-service-1.0.0/allstar-service-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-17T18:26:47.656267963Z"
+generated: "2024-09-18T21:33:16.535491693Z"
