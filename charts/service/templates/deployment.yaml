@@ -21,55 +21,69 @@ spec:
       serviceAccount: {{ .Values.serviceAccount }}
       {{- end }}
       containers:
-      - name: {{ .Release.Name }}
-        image: {{ .Values.image }}
-        {{- if .Values.resources }}
+      {{- range $name, $container := .Values.deployment.containers }}
+      - name: {{ $name }}
+        {{- if $container.command }}
+        {{- if kindIs "slice" $container.command }}
+        command:
+        {{- range $el := $container.command }}
+        - {{ $el }}
+        {{- end }}
+        {{- else }}
+        command: {{ $container.command }}
+        {{- end }}
+        {{- end }}
+        image: {{ $.Values.image }}
+        {{- if $container.resources }}
         resources:
-          {{- if .Values.resources.requests }}
+          {{- if $container.resources.requests }}
           requests:
-            {{- range $k, $v := .Values.resources.requests }}
+            {{- range $k, $v := $container.resources.requests }}
             {{ $k }}: {{ $v }}
             {{- end }}
           {{- end }}
-          {{- if .Values.resources.limits }}
+          {{- if $container.resources.limits }}
           limits:
-            {{- range $k, $v := .Values.resources.limits }}
+            {{- range $k, $v := $container.resources.limits }}
             {{ $k }}: {{ $v }}
             {{- end }}
           {{- end }}
         {{- end }}
         env:
-        - name: PORT
-          value: {{ .Values.port | quote }}
         - name: K8S_ENV
-          value: {{ .Values.env }}
-        {{- range $k, $v := .Values.configMapEnv }}
+          value: {{ $.Values.env }}
+        {{- range $k, $v := $container.configMapEnv }}
         - name: {{ $k }}
           valueFrom:
             configMapKeyRef:
               name: {{ $.Release.Name }}
               key: {{ $v }}
         {{- end }}
-        {{- range $k, $v := .Values.secretEnv }}
+        {{- range $k, $v := $container.secretEnv }}
         - name: {{ $k }}
           valueFrom:
             secretKeyRef:
               name: {{ $.Release.Name }}
               key: {{ $v }}
         {{- end }}
-        {{- range $k, $v := .Values.staticEnv }}
+        {{- range $k, $v := $container.staticEnv }}
         - name: {{ $k }}
           value: "{{ $v }}"
         {{- end }}
+        {{- if $container.ports }}
         ports:
-        - name: http
-          containerPort: {{ .Values.port }}
-        {{- if .Values.startupProbe }}
-        startupProbe: {{- include "probe" (set .Values.startupProbe "port" .Values.port)  | indent 10 }}
+        {{- range $k, $v := $container.ports }}
+        - name: {{ $k }}
+          containerPort: {{ $v }}
         {{- end }}
-        {{- if .Values.livenessProbe }}
-        livenessProbe: {{- include "probe" (set .Values.livenessProbe "port" .Values.port)  | indent 10 }}
         {{- end }}
-        {{- if .Values.readinessProbe }}
-        readinessProbe: {{- include "probe" (set .Values.readinessProbe "port" .Values.port)  | indent 10 }}
+        {{- if $container.startupProbe }}
+        startupProbe: {{- include "probe" $container.startupProbe  | indent 10 }}
         {{- end }}
+        {{- if $container.livenessProbe }}
+        livenessProbe: {{- include "probe" $container.livenessProbe  | indent 10 }}
+        {{- end }}
+        {{- if $container.readinessProbe }}
+        readinessProbe: {{- include "probe" $container.readinessProbe | indent 10 }}
+        {{- end }}
+      {{- end }}

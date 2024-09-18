@@ -1,4 +1,4 @@
-{{- if .Values.federationSchemaPublishCommand }}
+{{- if .Values.federationSchemaPublish.command }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -17,45 +17,28 @@ spec:
       containers:
       - name: {{ .Release.Name }}
         image: {{ .Values.image }}
-        {{- if .Values.resources }}
-        resources:
-          {{- if .Values.resources.requests }}
-          requests:
-            {{- range $k, $v := .Values.resources.requests }}
-            {{ $k }}: {{ $v }}
-            {{- end }}
-          {{- end }}
-          {{- if .Values.resources.limits }}
-          limits:
-            {{- range $k, $v := .Values.resources.limits }}
-            {{ $k }}: {{ $v }}
-            {{- end }}
-          {{- end }}
-        {{- end }}
         command:
           - "/bin/sh"
           - "-xec"
-          - "{{ .Values.federationSchemaPublishCommand }}"
+          - "{{ .Values.federationSchemaPublish.command }}"
         env:
-        - name: PORT
-          value: {{ .Values.port | quote }}
         - name: K8S_ENV
           value: {{ .Values.env }}
-        {{- range $k, $v := .Values.configMapEnv }}
+        {{- range $k, $v := .Values.federationSchemaPublish.configMapEnv }}
         - name: {{ $k }}
           valueFrom:
             configMapKeyRef:
               name: {{ $.Release.Name }}
               key: {{ $v }}
         {{- end }}
-        {{- range $k, $v := .Values.secretEnv }}
+        {{- range $k, $v := .Values.federationSchemaPublish.secretEnv }}
         - name: {{ $k }}
           valueFrom:
             secretKeyRef:
               name: {{ $.Release.Name }}
               key: {{ $v }}
         {{- end }}
-        {{- range $k, $v := .Values.staticEnv }}
+        {{- range $k, $v := .Values.federationSchemaPublish.staticEnv }}
         - name: {{ $k }}
           value: "{{ $v }}"
         {{- end }}

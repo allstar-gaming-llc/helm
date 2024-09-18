@@ -1,8 +1,6 @@
 ---
 env: dev
 image: ""
-port: 3000
-federationSchemaPublishCommand: null
 serviceAccount: null
 
 autoscaling:
@@ -16,9 +14,68 @@ autoscaling:
 
 monitoring:
   enabled: false
+  port: http
 
 externalSecret:
   enabled: true
+
+deployment:
+  containers:
+    default:
+      resources:
+        requests:
+          cpu: 200m
+        limits:
+          memory: 700Mi
+
+      # extra environment variables from ConfigMaps like
+      # envConfig;
+      #   <ENV_VAR_NAME>: <keyOfValueInConfigMap>
+      configMapEnv: {}
+
+      # extra environment variables from Secrets like
+      # envSecret;
+      #   <ENV_VAR_NAME>: <keyOfValueInSecret>
+      secretEnv: {}
+
+      # extra static environment variables like
+      # envVars;
+      #   <ENV_VAR_NAME>: <envVarValue>
+      staticEnv: {}
+
+      ports:
+        http: 3000
+
+      startupProbe:
+        failureThreshold: 30
+        period: 3
+        type: httpGet
+        port: http
+        path: /
+
+      livenessProbe:
+        period: 10
+        type: httpGet
+        port: http
+        path: /
+
+federationSchemaPublish:
+  command: null
+
+  # extra environment variables from ConfigMaps like
+  # envConfig;
+  #   <ENV_VAR_NAME>: <keyOfValueInConfigMap>
+  configMapEnv: {}
+
+  # extra environment variables from Secrets like
+  # envSecret;
+  #   <ENV_VAR_NAME>: <keyOfValueInSecret>
+  secretEnv: {}
+
+  # extra static environment variables like
+  # envVars;
+  #   <ENV_VAR_NAME>: <envVarValue>
+  staticEnv: {}
 
 service:
   enabled: true
@@ -28,35 +85,3 @@ ingress:
   enabled: false
   pathPrefix: null
   hostnames: []
-
-resources:
-  requests:
-    cpu: 200m
-  limits:
-    memory: 700Mi
-
-# extra environment variables from ConfigMaps like
-# envConfig;
-#   <ENV_VAR_NAME>: <keyOfValueInConfigMap>
-configMapEnv: {}
-
-# extra environment variables from Secrets like
-# envSecret;
-#   <ENV_VAR_NAME>: <keyOfValueInSecret>
-secretEnv: {}
-
-# extra static environment variables like
-# envVars;
-#   <ENV_VAR_NAME>: <envVarValue>
-staticEnv: {}
-
-startupProbe:
-  failureThreshold: 30
-  period: 3
-  type: httpGet
-  path: /
-
-livenessProbe:
-  period: 10
-  type: httpGet
-  path: /
