@@ -2,7 +2,7 @@ name: Release charts
 
 on:
   push:
-    branches: [main, ross/vx-753-bootstrap-service]
+    branches: [main]
 
 jobs:
   release:
