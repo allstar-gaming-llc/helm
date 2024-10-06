@@ -13,13 +13,19 @@ periodSeconds: {{ .period }}
 httpGet:
   path: {{ .path }}
   port: {{ .port }}
-{{- end }}
   {{- if .headers }}
   httpHeaders:
-  {{- range $idx, $value := .headers }}
-    - name: {{ $value.name }}
-      value: {{ $value.value }}
+  {{- range $header, $value := .headers }}
+  - name: {{ $header }}
+    value: {{ $value }}
   {{- end }}
   {{- end }}
+{{- else if eq .type "exec" }}
+exec:
+  command:
+  {{- range $value := .command }}
+  - {{ $value }}
+  {{- end }}
+{{- end }}
 {{- end }}
 
