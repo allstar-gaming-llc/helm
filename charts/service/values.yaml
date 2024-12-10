@@ -85,3 +85,4 @@ ingress:
   enabled: false
   pathPrefix: null
   hostnames: []
+  middlewares: []
