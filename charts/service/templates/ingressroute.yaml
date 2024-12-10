@@ -17,6 +17,12 @@ spec:
       services:
         - name: {{ .Release.Name }}
           port: {{ .Values.port }}
+      {{- if .Values.ingress.middlewares }}
+      middlewares:
+        {{- range $middleware := .Values.ingress.middlewares }}
+        - name: {{ $middleware }}
+        {{- end }}
+      {{- end }}
   tls:
     secretName: "{{ .Release.Name }}-tls"
 {{- end }}
